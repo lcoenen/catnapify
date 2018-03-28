@@ -1,0 +1,26 @@
+{
+  "name": "catnapify",
+  "version": "0.1.0",
+  "description": "Promise-based, typescript ready, decorated wrapper around restify",
+  "main": "built/restify.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lcoenen/catnapify.git"
+  },
+  "keywords": [
+    "typescript",
+    "restify",
+    "decorator",
+    "makefile",
+    "promise"
+  ],
+  "author": "Loíc Coenen",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/lcoenen/catnapify/issues"
+  },
+  "homepage": "https://github.com/lcoenen/catnapify#readme"
+}
