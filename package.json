@@ -2,7 +2,7 @@
   "name": "catnapify",
   "version": "0.1.0",
   "description": "Promise-based, typescript ready, decorated wrapper around restify",
-  "main": "built/restify.js",
+  "main": "lib/catnapify.js",
   "scripts": {
     "test": "make test"
   },
@@ -22,5 +22,12 @@
   "bugs": {
     "url": "https://github.com/lcoenen/catnapify/issues"
   },
-  "homepage": "https://github.com/lcoenen/catnapify#readme"
+  "homepage": "https://github.com/lcoenen/catnapify#readme",
+  "devDependencies": {
+    "@types/es6-promise": "^3.3.0",
+    "typedoc": "^0.11.1"
+  },
+  "dependencies": {
+    "restify": "^7.1.0"
+  }
 }
