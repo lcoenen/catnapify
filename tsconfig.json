@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "module": "system",
+        "module": "common",
         "noImplicitAny": true,
         "removeComments": false,
         "preserveConstEnums": true,

@@ -899,12 +899,13 @@ export class Server{
 
 		let _sets = {...defaultSettings, ...settings}; 
 
-		return new Promise((resolve, reject) => {
+		return new Promise<void>((resolve, reject) => {
 
 			this.api.listen(_sets.port, _sets.host, function (err: Error) {
 
 				if(!err) {
 
+					// Hello 25
 					resolve()
 
 				}
