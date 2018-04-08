@@ -35,4 +35,4 @@ test: $(INPUT_JS) $(TESTS_JS)
 	mocha test
 
 watch-test: 
-	nodemon --watch src/*.ts --watch test/*.ts --exec "make test" 
+	nodemon --watch src/*.ts --watch test/*.ts --exec "make test || true" 

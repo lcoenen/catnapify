@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "module": "common",
+        "module": "system",
         "noImplicitAny": true,
         "removeComments": false,
         "preserveConstEnums": true,
@@ -8,6 +8,7 @@
 				"strict": true,
 				"declaration": true,
 				"noEmitOnError" : true,
+				"experimentalDecorators": true,
 				"pretty": true
     },
     "exclude": [
