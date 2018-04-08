@@ -1,4 +1,4 @@
-import { Server, Burrito, route, modernify } from '../src/catnapify';
+import { Server } from '../src/catnapify';
 
 var chai = require('chai'),
 	chaiHttp = require('chai-http'),
@@ -16,48 +16,55 @@ import { expect } from 'chai' ;
 import 'mocha';
 
 
-
-class testServer extends Server {
-
-	constructor(){
-
-		super({port: 20000})
-
-	}	
-
-	@route('get', '/hello')
-	@modernify
-	public hello(burrito: Burrito) {
-
-		return { code: 666, answer: { message: 'hello' } }	
-
-	}
-
-}
-
-
 describe('Server', () => {
 
 	it('should create a server without any settings', () => {
 
 		let serv = new Server()
 
+		expect(serv.settings.name).to.be.equal('catnapify-server')
+
 	}) 
 
-	it('should be able to return an error code', () => {
+	it('should create a server with defined parameters', () => {
 
 		let serv = new Server({
 			name: 'test-server',
-			port: 94549,
-			host: '127.0.1.2'
+			port: 94549
 		})
+
+		expect(serv.settings.port).to.be.equal(94549)
+		expect(serv.settings.host).to.be.equal('127.0.0.1')
 
 	})
 
-	it('should answer when establishing a route', () => {
+	it('should accept a random restify instance and tell it to listen', () => {
 
-		let serv = new testServer()
-		serv.listen()
+		let called : boolean = false;
+		const port = 32423;
+
+		let restifyMock = {
+			acceptable: '',
+			use: function(middleware: any) {},	
+			pre: function(middleware: any) {},	
+			listen: function(port: number, host: string, cb: Function) {
+				expect(port).to.be.equal(port)
+				expect(host).to.be.equal('192.179.12.1')
+				called = true;
+				cb()
+			}
+		}
+
+		let serv = new Server({	
+			port: port,
+			host: '192.179.12.1'
+		}, restifyMock)
+			
+		return serv.listen().then(() => {
+
+		 	expect(called).to.be.equal(true)
+
+		})
 
 	})
 
