@@ -8,9 +8,10 @@
 				"strict": true,
 				"declaration": true,
 				"noEmitOnError" : true,
-				"experimentalDecorators": true,
-				"pretty": true
-    },
+				"pretty": true,
+        "target": "ES5",
+        "experimentalDecorators": true
+		},
     "exclude": [
         "node_modules"
     ]

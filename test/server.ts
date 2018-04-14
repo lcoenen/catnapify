@@ -1,4 +1,5 @@
-import { Server } from '../src/catnapify';
+import { Server } from '../src/server';
+import { Controller } from '../src/controller'
 
 var chai = require('chai'),
 	chaiHttp = require('chai-http'),
@@ -68,4 +69,30 @@ describe('Server', () => {
 
 	})
 
-})
+	it("should return a broken promise if restify calls back with an error", () => {
+
+		let restifyMock = {
+			acceptable: '',
+			use: function(middleware: any) {},	
+			pre: function(middleware: any) {},	
+			listen: function(port: number, host: string, cb: Function) {
+				expect(port).to.be.equal(port)
+				expect(host).to.be.equal('192.179.12.1')
+				called = true;
+				cb('Aarg, things didn\'t go well at all!')
+			}
+		}
+
+		let called : boolean = false;
+		const port = 32423;
+
+		let serv = new Server({	
+			port: port,
+			host: '192.179.12.1'
+		}, restifyMock)
+
+		expect(serv.listen()).to.eventually.be.rejected
+
+	});
+
+});

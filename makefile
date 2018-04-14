@@ -2,7 +2,7 @@ DOCTOOL = node_modules/typedoc/bin/typedoc
 DOCARGS = --out docs/ src/
 
 TSC = node_modules/.bin/tsc
-TSC_ARGS = --pretty
+TSC_ARGS = --pretty --target ES5 --experimentalDecorators
 
 CLEAN = docs/* src/*.js test/*.js 
 
@@ -16,10 +16,11 @@ lib/catnapify.js: $(INPUT_JS)
 	cp src/*.js lib/
 
 $(INPUT_JS): $(INPUT) 
-	$(TSC) $< $(TSC_ARGS)
+	$(TSC) $^ $(TSC_ARGS)
 
 $(TESTS_JS): $(TESTS) 
-	$(TSC) $< $(TSC_ARGS) 
+	pwd
+	$(TSC) $^ $(TSC_ARGS) 
 
 docs/index.html: $(INPUT) 
 	$(DOCTOOL) $(DOCARGS) 
@@ -35,4 +36,4 @@ test: $(INPUT_JS) $(TESTS_JS)
 	mocha test
 
 watch-test: 
-	nodemon --watch src/*.ts --watch test/*.ts --exec "make test || true" 
+	nodemon --watch src --watch test --exec "make test || true" -e ts 

@@ -4,19 +4,26 @@ import { Promise } from 'es6-promise';
 
 import { Settings, defaultSettings } from './settings';
 
+import { Controller } from './controller';
+
 /*
  *
  * Initialise the server
  *
  */
-export class Server {
+export class Server extends Controller {
 
 	public constructor(
 		public settings?: Settings,
-		public api?: restify.plugins.Server	
+		public api?: restify.Server,
+		routes: string[] = []
 	){
 
-		this.settings = { ...defaultSettings, ...settings }
+		super()
+
+		this.link(this);
+
+		this.settings = { ...defaultSettings, ...settings };
 
 		if(!this.api) this.api = restify.createServer({
 			name: this.settings.name
@@ -68,5 +75,20 @@ export class Server {
 		})
 
 	}
+
+	/*
+	 * Link a server to a controller
+	 *
+	 * This function specialize the parent controller's link
+	 * in order to apply the routes to restify
+	 *
+	 */
+	public link(controller: Controller) {	
+		
+		this.server = this; 
+
+		super.link(controller);
+	
+	} 
 
 };

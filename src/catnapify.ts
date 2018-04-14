@@ -8,3 +8,8 @@
  */
 
 export { Server } from './server';
+export { Controller } from './controller';
+export { Request } from './request';
+export { Answer } from './answer';
+
+export * from './decorator';
