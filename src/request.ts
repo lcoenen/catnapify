@@ -1,5 +1,7 @@
 import * as restify from 'restify';
 
+import { Route } from './route'
+
 /*
  *
  *	Wrapper around Restify request, response and next type
@@ -14,7 +16,7 @@ export interface Request {
 	next?: restify.Next;
 	params?: any;
 	headers?: any;
-	// route?: Route;
+	route: Route;
 	// hooks?: HooksTable;
 
 }

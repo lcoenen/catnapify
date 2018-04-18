@@ -28,7 +28,7 @@ export class Controller {
 
 			try {
 
-				this.server.api[member._catnapify_route.verb](member._catnapify_route.route, member)
+				this.server.api[member._catnapify_route.verb](member._catnapify_route.path, member)
 
 			} catch {}	
 

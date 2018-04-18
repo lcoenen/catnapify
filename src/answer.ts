@@ -8,7 +8,7 @@
 export interface Answer<T> {
 
 	code: number;
-	answer: T | Error;
+	answer: T | Error; // Having answer.answer is confusing. To be changed.
 	headers: any;
 
 }
