@@ -34,6 +34,7 @@ describe('@need', () => {
 
 				json: function(code: Number, message: any) {
 		
+						console.log(message)
 						expect(code).to.be.equal(400)	
 
 					}
@@ -46,7 +47,7 @@ describe('@need', () => {
 
 				}
 
-				handler(req, res, next)
+				handler(req, res, next).catch((err: any) => done(err))
 
 			}
 		}
@@ -58,7 +59,7 @@ describe('@need', () => {
 			@need('data')
 			post(request: Request) {
 
-				return Promise.resolve({code: 200, answer: 'ok'})
+				return Promise.resolve({code: 200, response: 'ok'})
 
 			}
 
@@ -102,7 +103,7 @@ describe('@need', () => {
 
 				}
 
-				handler(req, res, next)
+				handler(req, res, next).catch((err: any) => done(err))
 
 			}
 		}
@@ -115,7 +116,7 @@ describe('@need', () => {
 			@need('data')
 			post(request: Request) {
 
-				return Promise.resolve({code: 200, answer: {status: 'ok', data: request.params.data}})
+				return Promise.resolve({code: 200, response: {status: 'ok', data: request.params.data}})
 
 			}
 
@@ -161,7 +162,7 @@ describe('@need', () => {
 
 				}
 
-				handler(req, res, next)
+				handler(req, res, next).catch((err: any) => done(err))
 
 			}
 		}
@@ -175,7 +176,7 @@ describe('@need', () => {
 			post(request: Request) {
 
 				let data = `${ request.params.data } in ${ request.params.date }`
-				return Promise.resolve({code: 200, answer: {status: 'ok', data}})
+				return Promise.resolve({code: 200, response: {status: 'ok', data}})
 
 			}
 
@@ -235,7 +236,7 @@ describe('@need', () => {
 
 				}
 
-				handler(req, res, next)
+				handler(req, res, next).catch((err: any) => done(err))
 
 			}
 		}
@@ -248,7 +249,7 @@ describe('@need', () => {
 			@need('doggo', isGoodDoggo)
 			post(request: Request) {
 
-				return Promise.resolve({code: 200, answer: {status: 'ok', data: request.params.data}})
+				return Promise.resolve({code: 200, response: {status: 'ok', data: request.params.data}})
 
 			}
 

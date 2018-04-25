@@ -34,6 +34,7 @@ describe('@catnapify', () => {
 
 					json: function(code: Number, message: any) {
 
+
 						expect(code).to.be.equal(270)	
 						expect(message).to.be.equal('pong')	
 
@@ -59,7 +60,7 @@ describe('@catnapify', () => {
 			@catnapify('get', '/ping')	
 			ping() {
 
-				return Promise.resolve({code: 270, answer: 'pong'})
+				return Promise.resolve({code: 270, response: 'pong'})
 
 			}
 

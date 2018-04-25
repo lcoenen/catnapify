@@ -1,6 +1,6 @@
 import { Promise } from 'es6-promise';
 
-import { catnapify, answer, Server, Controller, Request } from '../src/catnapify';
+import { catnapify, give, Server, Controller, Request } from '../src/catnapify';
 
 var chai = require('chai'),
 	chaiHttp = require('chai-http'),
@@ -26,9 +26,9 @@ const restifyMockBase = {
 };
 
 
-describe('@answer', () => {
+describe('@give', () => {
 
-	it("should fail with a 500 if the parameter is not answered", (done) => {
+	it("should fail with a 500 if the parameter is not giveed", (done) => {
 
 		let restifyMock = {
 			...restifyMockBase,
@@ -53,7 +53,7 @@ describe('@answer', () => {
 
 				}
 
-				handler(req, res, next)
+				handler(req, res, next).catch((err: any) => done(err))
 
 			}
 		}
@@ -63,10 +63,10 @@ describe('@answer', () => {
 			constructor(){ super() }	
 
 			@catnapify('post', '/post')	
-			@answer('doggo')
+			@give('doggo')
 			post(request: Request) {
 
-				return Promise.resolve({code: 200, answer: 'ok'})
+				return Promise.resolve({code: 200, give: 'ok'})
 
 			}
 
@@ -92,8 +92,10 @@ describe('@answer', () => {
 				let res = {
 
 					json: function(code: Number, message: any) {
+						
 						expect(code).to.be.equal(200)	
 						expect(message.data).to.be.equal('Hello world!');
+
 					}
 
 				}
@@ -104,7 +106,8 @@ describe('@answer', () => {
 
 				}
 
-				handler(req, res, next)
+				handler(req, res, next).catch((err: any) => done(err))
+
 
 			}
 		}
@@ -114,10 +117,10 @@ describe('@answer', () => {
 			constructor(){ super() }	
 
 			@catnapify('post', '/post')	
-			@answer('data')
+			@give('data')
 			post(request: Request) {
 
-				return Promise.resolve({code: 200, answer: {data: 'Hello world!'}})
+				return Promise.resolve({code: 200, response: {data: 'Hello world!'}})
 
 			}
 
@@ -155,7 +158,8 @@ describe('@answer', () => {
 
 				}
 
-				handler(req, res, next)
+				handler(req, res, next).catch((err: any) => done(err))
+
 
 			}
 		}
@@ -165,10 +169,10 @@ describe('@answer', () => {
 			constructor(){ super() }	
 
 			@catnapify('post', '/post')	
-			@answer('data')
+			@give('data')
 			post(request: Request) {
 
-				return {code: 200, answer: {data: 'Hello world!'}}
+				return {code: 200, response: {data: 'Hello world!'}}
 
 			}
 
@@ -206,7 +210,7 @@ describe('@answer', () => {
 
 				}
 
-				handler(req, res, next)
+				handler(req, res, next).catch((err: any) => done(err))
 
 			}
 		}
@@ -216,10 +220,10 @@ describe('@answer', () => {
 			constructor(){ super() }	
 
 			@catnapify('post', '/post')	
-			@answer(['data', 'id'])
+			@give(['data', 'id'])
 			post(request: Request) {
 
-				return Promise.resolve({code: 200, answer: {id: 42, data: 'Hello world!'}})
+				return Promise.resolve({code: 200, response: {id: 42, data: 'Hello world!'}})
 
 			}
 
@@ -232,7 +236,7 @@ describe('@answer', () => {
 
 	});
 
-	it("should accept a validator for a specific answer", (done) => {
+	it("should accept a validator for a specific give", (done) => {
 
 			interface Doggo {
 				race: string;	
@@ -274,7 +278,8 @@ describe('@answer', () => {
 
 					}
 
-					handler(req, res, next)
+					handler(req, res, next).catch((err: any) => done(err))
+
 
 				}
 			}
@@ -284,10 +289,10 @@ describe('@answer', () => {
 				constructor(){ super() }	
 
 				@catnapify('post', '/post')	
-				@answer('doggo', isGoodDoggo)
+				@give('doggo', isGoodDoggo)
 				post(request: Request) {
 
-					return Promise.resolve({code: 200, answer: {
+					return Promise.resolve({code: 200, give: {
 							doggo: {
 								race: 'Pit bull',
 								name: 'Headeater',

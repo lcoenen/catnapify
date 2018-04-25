@@ -26,11 +26,8 @@ export class Controller {
 
 			let member = controller[key];
 
-			try {
-
+			if(member !== undefined && member._catnapify_route !== undefined)
 				this.server.api[member._catnapify_route.verb](member._catnapify_route.path, member)
-
-			} catch {}	
 
 		}
 
