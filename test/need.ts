@@ -34,7 +34,6 @@ describe('@need', () => {
 
 				json: function(code: Number, message: any) {
 		
-						console.log(message)
 						expect(code).to.be.equal(400)	
 
 					}
