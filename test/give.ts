@@ -66,7 +66,7 @@ describe('@give', () => {
 			@give('doggo')
 			post(request: Request) {
 
-				return Promise.resolve({code: 200, give: 'ok'})
+				return Promise.resolve({code: 200, response: 'ok'})
 
 			}
 

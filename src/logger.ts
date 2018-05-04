@@ -78,19 +78,12 @@ export function logger<T>(config?: LoggerConfig){
 
 			}).catch((err: Answer<T>) => {
 
-				console.log(`l. 81`)
-				console.log(err)
-
 				config.logger[config.error](`ERROR: ${ request.route.verb } ${ request.route.path }`)  
 				config.logger[config.error](`ERROR: We got a ${ err.code } error`)
 				config.logger[config.error](err.response)
 				return err;
 
 			}).catch((err: Error) => {
-
-				console.log(err)
-
-				console.log(`l. 87 ${ config.internal }`)
 
 				config.logger[config.internal](`INTERNAL: ${ request.route.verb } ${ request.route.path }`)	
 				config.logger[config.internal](err)

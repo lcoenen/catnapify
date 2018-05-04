@@ -15,6 +15,7 @@ export interface Answer<T> {
 
 export function isAnswer<T>(ans: any) : ans is Answer<T> {
 
+	if(ans === undefined) return false;
 	return (ans.code !== undefined) && (ans.response != undefined);	
 
 };

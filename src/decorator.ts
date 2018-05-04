@@ -43,7 +43,7 @@ function catnapify<AnswerType>(verb: string, path: string) : Function {
 			let promise: Promise<Answer<AnswerType>>;
 
 			try {
-
+				
 				promise = Promise.resolve(orig(request));
 
 			} catch(err) {

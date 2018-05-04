@@ -2,6 +2,8 @@ import * as restify from 'restify';
 
 import { Route } from './route'
 
+import { HooksTable } from './hooks'
+
 /*
  *
  *	Wrapper around Restify request, response and next type
@@ -17,6 +19,7 @@ export interface Request {
 	params?: any;
 	headers?: any;
 	route: Route;
+	hooks?: HooksTable;
 	// hooks?: HooksTable;
 
 }
