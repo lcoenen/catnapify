@@ -2,7 +2,7 @@ DOCTOOL = node_modules/typedoc/bin/typedoc
 DOCARGS = --out docs/ src/
 
 TSC = node_modules/.bin/tsc
-TSC_ARGS = --pretty --target ES5 --experimentalDecorators
+TSC_ARGS = --pretty --experimentalDecorators
 
 CLEAN = docs/* src/*.js test/*.js 
 
