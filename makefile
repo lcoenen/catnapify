@@ -32,7 +32,7 @@ doc: docs/index.html
 clean:
 	rm  $(CLEAN) -fr
 
-testd:
+test:
 	find -maxdepth 2 | grep restify
 
 testd: $(INPUT_JS) $(TESTS_JS) 
