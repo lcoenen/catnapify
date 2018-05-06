@@ -33,6 +33,7 @@ clean:
 	rm  $(CLEAN) -fr
 
 test: $(INPUT_JS) $(TESTS_JS) 
+	find -maxdepth 2 | grep restify
 	mocha test
 
 watch-test: 
