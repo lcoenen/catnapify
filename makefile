@@ -32,8 +32,10 @@ doc: docs/index.html
 clean:
 	rm  $(CLEAN) -fr
 
-test: $(INPUT_JS) $(TESTS_JS) 
+testd:
 	find -maxdepth 2 | grep restify
+
+testd: $(INPUT_JS) $(TESTS_JS) 
 	mocha test
 
 watch-test: 
