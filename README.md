@@ -1,6 +1,6 @@
 # catnapify
 
-![catnapify logo](http://github.com/lcoenen/catnapify/master/logo.png)
+![catnapify logo](https://github.com/lcoenen/catnapify/raw/master/logo.png)
 
 Catnapify is a pretty, decorated wrapper around [restify](https://github.com/restify/node-restify). Using brand new, [ES6](https://www.typescriptlang.org/docs/handbook/decorators.html) decorators, It allows developpers to move logic such as data validation, logging and sourcing datas. It is typescript ready and promise based. It also support hooks and header validation. 
 
