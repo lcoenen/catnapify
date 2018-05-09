@@ -1,10 +1,11 @@
-DOCTOOL = node_modules/typedoc/bin/typedoc
-DOCARGS = --out docs/ src/
+DOCTOOL = node_modules/typedoc/bin/typedoc DOCARGS = --out docs/ src/
+
+MOCHA_BIN = node_modules/mocha/bin/mocha
 
 TSC = node_modules/.bin/tsc
-TSC_ARGS = --pretty --target ES6 --experimentalDecorators
+TSC_ARGS = --pretty --moduleResolution Node --module CommonJS --target ES6 --experimentalDecorators
 
-CLEAN = docs/* src/*.js test/*.js 
+CLEAN = docs/* src/*.js test/*.js #
 
 INPUT = $(wildcard src/*.ts) 
 TESTS = $(wildcard test/*.ts) 
@@ -33,7 +34,7 @@ clean:
 	rm  $(CLEAN) -fr
 
 test: $(INPUT_JS) $(TESTS_JS) 
-	mocha test
+	$(MOCHA_BIN) test
 
 watch-test: 
 	nodemon --watch src --watch test --exec "make test || true" -e ts 
