@@ -3,7 +3,7 @@ DOCTOOL = node_modules/typedoc/bin/typedoc DOCARGS = --out docs/ src/
 MOCHA_BIN = node_modules/mocha/bin/mocha
 
 TSC = node_modules/.bin/tsc
-TSC_ARGS = --pretty --moduleResolution Node --module CommonJS --target ES6 --experimentalDecorators
+TSC_ARGS = --pretty --moduleResolution Node --module CommonJS --target ES5 --experimentalDecorators --lib es5,es6,dom
 
 CLEAN = docs/* src/*.js test/*.js #
 

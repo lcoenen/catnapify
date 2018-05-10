@@ -67,7 +67,6 @@ describe('@catnapify', () => {
 		}	
 
 		let serv = new Server({}, restifyMock);
-
 		let testController = new TestController();
 		serv.link(testController);
 
