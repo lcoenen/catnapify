@@ -20,7 +20,7 @@ import { Answer, isAnswer } from './answer'
  * @property internal Logging of internal error or assertions error, unhandled throw,... (default: fatal)
  *
  */
-interface LoggerConfig {
+export interface LoggerConfig {
 
 	logger: any;
 	input?: string;
