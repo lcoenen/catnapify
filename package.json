@@ -1,6 +1,6 @@
 {
   "name": "catnapify",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Promise-based, typescript ready, decorated wrapper around restify",
   "main": "lib/catnapify.js",
   "scripts": {
@@ -36,8 +36,8 @@
     "typescript": "^2.8.3"
   },
   "dependencies": {
-		"@types/es6-promise": "^3.3.0",
-		"es6-promise": "^4.2.4",
+    "@types/es6-promise": "^3.3.0",
+    "es6-promise": "^4.2.4",
     "restify": "^7.1.0"
   }
 }
