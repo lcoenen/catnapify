@@ -23,9 +23,9 @@ function isArrayofString(x: any): x is String[] {
 
 function need(param: string) : any;
 function need(params: string[]) : any;
-function need<T>(paramsValidator: (T) => boolean);
-function need<T>(param: string, paramsValidator: (T) => boolean);
-function need<T>(arg1: string | string[] | ((T) => boolean), arg2?: ((T) => boolean)) {
+function need(paramsValidator: (any) => boolean);
+function need(param: string, paramsValidator: (any) => boolean);
+function need(arg1: string | string[] | ((any) => boolean), arg2?: ((any) => boolean)) {
 
 	return function (root: any, member: string, descriptor: PropertyDescriptor) {
 
