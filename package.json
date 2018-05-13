@@ -1,6 +1,6 @@
 {
   "name": "catnapify",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Promise-based, typescript ready, decorated wrapper around restify",
   "main": "lib/catnapify.js",
   "types": "lib/catnapify.d.ts",
