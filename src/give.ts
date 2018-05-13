@@ -24,8 +24,8 @@ function isArrayofString(x: any): x is String[] {
 function give(param: string) : any;
 function give(params: string[]) : any;
 function give<T>(paramsValidator: (tested: T) => boolean);
-function give<T>(param: string, paramsValidator: (tested: Answer<T>) => boolean);
-function give<T>(arg1: string | string[] | ((tested: Answer<T>) => boolean), arg2?: ((tested: Answer<T>) => boolean)) {
+function give<T>(param: string, paramsValidator: (tested: T) => boolean);
+function give<T>(arg1: string | string[] | ((tested: T) => boolean), arg2?: ((tested: T) => boolean)) {
 
 	return function (root: any, member: string, descriptor: PropertyDescriptor) {
 
@@ -63,7 +63,7 @@ function give<T>(arg1: string | string[] | ((tested: Answer<T>) => boolean), arg
 
 				} else {
 
-					if(!arg1(answer.response)) throw {
+					if(!arg1(<T>answer.response)) throw {
 						code: 500,
 						response: `Error: route ${ request.route.path } answer didn't pass validation`
 					}	
