@@ -39,14 +39,14 @@ function need<T>(arg1: string | string[] | ((tested: T) => boolean), arg2?: ((te
 
 				if(request.params[arg1] === undefined) throw { 
 					code: 400, 
-					response: `ERROR: Argument ${ arg1 } missing on route ${ request.route }`
+					response: `ERROR: Argument ${ arg1 } missing on route ${ request.route.path }`
 				};
 
 				else {	
 
 					if(arg2 && !arg2(request.params)) throw {
 						code: 400,
-						response: `Error: route ${ request.route } didn't pass validation`
+						response: `Error: route ${ request.route.path } didn't pass validation`
 					}	
 
 				}
@@ -56,7 +56,7 @@ function need<T>(arg1: string | string[] | ((tested: T) => boolean), arg2?: ((te
 				for(let param of arg1) {
 
 					if(request.params[param] === undefined) throw { 
-						code: 400, response: `ERROR: Argument ${ param } missing on route ${ request.route }`
+						code: 400, response: `ERROR: Argument ${ param } missing on route ${ request.route.path }`
 					}	
 
 				}
@@ -65,7 +65,7 @@ function need<T>(arg1: string | string[] | ((tested: T) => boolean), arg2?: ((te
 
 				if(!arg1(request.params)) throw {
 					code: 400,
-					response: `Error: route ${ request.route } didn't pass validation`
+					response: `Error: route ${ request.route.path } didn't pass validation`
 				}	
 
 			}

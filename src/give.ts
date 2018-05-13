@@ -46,7 +46,7 @@ function give<T>(arg1: string | string[] | ((tested: Answer<T>) => boolean), arg
 
 						if(arg2 && !arg2(answer.response[arg1])) throw {
 							code: 500,
-							response: `Error: route ${ request.route } answer didn't pass validation`
+							response: `Error: route ${ request.route.path } answer didn't pass validation`
 						}	
 
 					}
@@ -56,16 +56,16 @@ function give<T>(arg1: string | string[] | ((tested: Answer<T>) => boolean), arg
 					for(let param of arg1) {
 
 						if(answer.response[param] === undefined) throw { 
-							code: 500, response: `ERROR: argument ${ param } missing on route ${ request.route } answer`
+							code: 500, response: `ERROR: argument ${ param } missing on route ${ request.route.path } answer`
 						}	
 
 					}
 
 				} else {
 
-					if(!arg1(answer)) throw {
+					if(!arg1(answer.response)) throw {
 						code: 500,
-						response: `Error: route ${ request.route } answer didn't pass validation`
+						response: `Error: route ${ request.route.path } answer didn't pass validation`
 					}	
 
 				}
