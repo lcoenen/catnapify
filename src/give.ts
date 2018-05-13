@@ -23,9 +23,9 @@ function isArrayofString(x: any): x is String[] {
 
 function give(param: string) : any;
 function give(params: string[]) : any;
-function give(paramsValidator: (any) => boolean);
-function give(param: string, paramsValidator: (any) => boolean);
-function give(arg1: string | string[] | ((any) => boolean), arg2?: ((any) => boolean)) {
+function give<T>(paramsValidator: (T) => boolean);
+function give<T>(param: string, paramsValidator: (T) => boolean);
+function give<T>(arg1: string | string[] | ((T) => boolean), arg2?: ((T) => boolean)) {
 
 	return function (root: any, member: string, descriptor: PropertyDescriptor) {
 
@@ -33,7 +33,7 @@ function give(arg1: string | string[] | ((any) => boolean), arg2?: ((any) => boo
 
 		descriptor.value = function (request: Request) {
 
-			return Promise.resolve(orig(request)).then((answer: Answer<any>) => {
+			return Promise.resolve(orig(request)).then((answer: Answer<T>) => {
 
 				if(isString(arg1)){
 
