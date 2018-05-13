@@ -9,7 +9,7 @@ export interface Answer<T> {
 
 	code: number;
 	response: T | Error; // Having answer.answer is confusing. To be changed.
-	headers: any;
+	headers?: any;
 
 }
 
