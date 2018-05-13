@@ -33,7 +33,9 @@ function give<T>(arg1: string | string[] | ((tested: T) => boolean), arg2?: ((te
 
 		descriptor.value = function (request: Request) {
 
-			return Promise.resolve(orig(request)).then((answer: Answer<T>) => {
+			return Promise.resolve(orig(request)).then((answer: Answer<T> | T) => {
+
+				if(!isAnswer(answer)) answer = <Answer<T>>{code: 200, response: answer}	
 
 				if(isString(arg1)){
 

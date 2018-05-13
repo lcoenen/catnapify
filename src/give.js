@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var es6_promise_1 = require("es6-promise");
+var answer_1 = require("./answer");
 function isString(x) {
     return typeof x === "string";
 }
@@ -18,6 +19,8 @@ function give(arg1, arg2) {
         var orig = descriptor.value;
         descriptor.value = function (request) {
             return es6_promise_1.Promise.resolve(orig(request)).then(function (answer) {
+                if (!answer_1.isAnswer(answer))
+                    answer = { code: 200, response: answer };
                 if (isString(arg1)) {
                     if (answer.response[arg1] === undefined)
                         throw {
