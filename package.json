@@ -1,9 +1,9 @@
 {
   "name": "catnapify",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Promise-based, typescript ready, decorated wrapper around restify",
   "main": "lib/catnapify.js",
-	"types": "lib/catnapify.d.ts",
+  "types": "lib/catnapify.d.ts",
   "scripts": {
     "test": "make test"
   },
