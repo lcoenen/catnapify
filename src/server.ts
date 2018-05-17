@@ -31,7 +31,7 @@ export class Server extends Controller {
 		
 		this.api.pre(restify.plugins.pre.sanitizePath());
 		this.api.use(restify.plugins.acceptParser(this.api.acceptable));
-		this.api.use(restify.plugins.bodyParser());
+		this.api.use(restify.plugins.bodyParser({mapParams: true}));
 		this.api.use(restify.plugins.queryParser());
 		this.api.use(restify.plugins.fullResponse());
 
