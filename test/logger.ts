@@ -69,7 +69,14 @@ describe('@logger', () => {
 
 				expect(answer.response).to.be.equal('ok')
 
+			},
+
+			trace: function(message: any) {
+			
+
+
 			}
+			
 
 		}
 
@@ -145,7 +152,21 @@ describe('@logger', () => {
 				expect(answer.code).to.be.equal(500)
 				expect(answer.response).to.be.equal('An awful thing happened')
 
+			},
+
+			trace: function(request: any) {
+			
+				expect(request).to.have.property('req')			
+				expect(request).to.have.property('res')			
+			
+			},
+
+			info: function(message: string) {
+			
+				return;	
+			
 			}
+
 		}
 
 		class TestController extends Controller {
@@ -208,6 +229,7 @@ describe('@logger', () => {
 
 					json: function(code: Number, message: any) {
 
+						console.log(message)
 						expect(code).to.be.equal(200)	
 
 					}
@@ -235,7 +257,7 @@ describe('@logger', () => {
 
 			},
 
-			trace: function(message: string, answer: any) {
+			reroute: function(message: string, answer: any) {
 
 				expect(message).to.be.equal(
 					'OUTPUT: post /post'		
@@ -243,14 +265,25 @@ describe('@logger', () => {
 
 				expect(answer.response).to.be.equal('ok')
 
+			},
+
+			trace: function(message: string){
+
+					return
+			
 			}
 
 		}
 
+		/*
+		 *
+		 * This is the target loggerConfig. The level used here are made up.
+		 *
+		 */
 		let loggerConfig = {
 			logger: loggerMock,
 			input: 'notice',
-			output: 'trace'
+			output: 'reroute'
 		}
 
 		class TestController extends Controller {

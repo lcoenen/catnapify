@@ -40,6 +40,8 @@ let loggerDefaultConfig: LoggerConfig = {
 
 }
 
+//if(property.env.NODE_ENV != 'production') loggerDefaultConfig.output = 'info';
+
 /*
  *
  * Log routes input and output
@@ -61,7 +63,10 @@ export function logger<T>(config?: LoggerConfig){
 
 		descriptor.value = function(request: Request){
 
-			config.logger[config.input](`INPUT: ${ request.route.verb } ${ request.route.path }`, request)
+
+			config.logger[config.input](`INPUT: ${ request.route.verb } ${ request.route.path }`)
+			if(process.env.NODE_ENV != 'production') config.logger.trace(request)
+
 			let prom: Promise<Answer<T>> = orig(request).then((answer: Answer<T>) => {
 
 				config.logger[config.output](`OUTPUT: ${ request.route.verb } ${ request.route.path }`, answer)	
