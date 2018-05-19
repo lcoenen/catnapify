@@ -52,7 +52,9 @@ function isHooksTable(x:any) : x is HooksTable {
 }
 
 /*
+ *
  * Combine two hooksTable
+ *
  */
 function combineHooksTable(t1: HooksTable, t2: HooksTable) {
 
@@ -83,6 +85,7 @@ let hooksTableDefault: HooksTable = {
 	error: []
 
 }
+
 /*
  *
  * Allow to establish hooks during route threatement flow.
@@ -92,6 +95,7 @@ let hooksTableDefault: HooksTable = {
  *
  * Hooks can be called at three different time: before the threatement, after the threatement,
  * and in case of an error. 
+ *
  */
 function hooks(table: HooksTable) {
 
@@ -105,67 +109,78 @@ function hooks(table: HooksTable) {
 
 			table = combineHooksTable(hooksTableDefault, table)	
 
-			for(let hook of <beforeHook[]>table.before){
+			/*
+			 *
+			 * Apply each promise returning a request to the next one
+			 *
+			 * Return a new promise with the final request
+			 *
+			 */
+			return (<beforeHook[]>table.before).reduce((lastPromise, hook) => {
 
-				request = hook(request) // Before hooks
+				return lastPromise.then((request: Request) => {
 
-			} 
+					return hook(request)  
 
-			try {
+				}) 
 
-				return orig(request).then((answer: Answer<any>) => {
+			}, Promise.resolve(request))
 
-					for(let hook of <afterHook[]>table.after){
+			/*
+			 *
+			 * Execute the original function with the final request
+			 *
+			 */
+				.then((request: Request) => {
 
-						answer = hook(answer)
-
-					} 
-
-					return answer;
-
-				}).catch((err: any) => {
-
-					for(let hook of <errorHook[]>table.error) {
-
-						try { 
-
-							let answer: Answer<any> = hook(err)
-							return answer;
-
-						} catch(err) {
-
-							err = err;
-							continue;	
-
-						}
-
-					}	
-
-					throw err;
+					return orig(request)   
 
 				})
 
-			} catch (err) {
+			/* 
+			 *
+			 * Execute every after() hooks. 
+			 *
+			 * Each of them should return a promise or an Answer object. Each of them
+			 * will be applied on the next one
+			 *
+			 */
+				.then((answer: Answer<any>) => {
 
-				for(let hook of <errorHook[]>table.error) {
+					return (<afterHook[]>table.after).reduce((lastPromise, hook) => {
 
-					try { 
+						return lastPromise.then((answer: Answer<any>) => {
 
-						let answer: Answer<any> = hook(err)
-						return answer;
+							return hook(answer)  
 
-					} catch(err) {
+						})  
 
-						err = err;
-						continue;	
+					}, Promise.resolve(answer))  
 
-					}
+				})
 
-				}	
+			/*
+			 *
+			 * Execute every error() hooks.
+			 *
+			 * Each of them will be applied on the last error response.
+			 * If the hook throw an error or return a broken promise, it will continue to the next hook. 
+			 * If it return a correct answer, this will be returned by the decorator and no other hooks will be called
+			 *
+			 */
+				.catch((error: any) => {
 
-				throw err;
+					return (<errorHook[]>table.error).reduce((lastPromise, hook) => {
 
-			}
+						return lastPromise.catch((error: any) => {
+
+							return hook(error); 
+
+						})  
+
+					}, Promise.reject(error))
+
+				})
 
 		}
 
@@ -175,6 +190,12 @@ function hooks(table: HooksTable) {
 
 }
 
+
+/*
+ *
+ * Shortcut for the before hooks
+ *
+ */
 function before(cb: Function) {
 
 
@@ -183,12 +204,22 @@ function before(cb: Function) {
 
 }
 
+/*
+ *
+ * SHortcut for the after hooks
+ *
+ */
 function after(cb: Function) {
 
 	return hooks(<HooksTable>{after: cb})
 
 }
 
+/*
+ *
+ * Shortcut for the error hooks
+ *
+ */
 function error(cb: Function) {
 
 	return hooks(<HooksTable>{error: cb})
