@@ -20,7 +20,6 @@ $(INPUT_JS): $(INPUT)
 	$(TSC) $^ $(TSC_ARGS)
 
 $(TESTS_JS): $(TESTS) 
-	pwd
 	$(TSC) $^ $(TSC_ARGS) 
 
 docs/index.html: $(INPUT) 

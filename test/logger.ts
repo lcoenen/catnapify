@@ -29,7 +29,11 @@ describe('@logger', () => {
 
 				expect(route).to.be.equal('/post')
 
-				let req = {}				
+				let req = {
+				
+					path: () => route	
+				
+				}				
 				let res = {
 
 					json: function(code: Number, message: any) {
@@ -63,7 +67,7 @@ describe('@logger', () => {
 				 *
 				 */
 				if(typeof message == 'string') expect(message).to.be.equal(
-					'INPUT: post /post'	
+					'INPUT: post /post (/post)'	
 				)
 
 			},
@@ -71,7 +75,7 @@ describe('@logger', () => {
 			debug: function(message: string, answer: any) {
 
 				expect(message).to.be.equal(
-					'OUTPUT: post /post'		
+					'OUTPUT: post /post (/post)'		
 				)
 
 				expect(answer.response).to.be.equal('ok')
@@ -120,6 +124,7 @@ describe('@logger', () => {
 
 				let req = {
 
+					path: (() => route),
 					params: {
 
 						foo: 'bar'	
@@ -231,7 +236,11 @@ describe('@logger', () => {
 
 				expect(route).to.be.equal('/post')
 
-				let req = {}				
+				let req = {
+				
+					path: () => route	
+				
+				}				
 				let res = {
 
 					json: function(code: Number, message: any) {
@@ -265,7 +274,7 @@ describe('@logger', () => {
 				 *
 				 */
 				if(typeof message == 'string') expect(message).to.be.equal(
-					'INPUT: post /post'	
+					'INPUT: post /post (/post)'	
 				)
 
 			},
@@ -273,7 +282,7 @@ describe('@logger', () => {
 			reroute: function(message: string, answer: any) {
 
 				expect(message).to.be.equal(
-					'OUTPUT: post /post'		
+					'OUTPUT: post /post (/post)'		
 				)
 
 				expect(answer.response).to.be.equal('ok')

@@ -66,12 +66,12 @@ export function logger<T>(config?: LoggerConfig){
 
 			let _log_internal_error = function(error: any) {
 			
-					config.logger[config.internal](`INTERNAL: ${ request.route.verb } ${ request.route.path }`)	
+					config.logger[config.internal](`INTERNAL: ${ request.route.verb } ${ request.route.path } (${ request.req.path() }; guru meditation)`)	
 					config.logger[config.internal](error)
 			
 			}
 
-			config.logger[config.input](`INPUT: ${ request.route.verb } ${ request.route.path }`)
+			config.logger[config.input](`INPUT: ${ request.route.verb } ${ request.route.path } (${ request.req.path() })`)
 			config.logger[config.input](request.req.params)
 			if(process.env.NODE_ENV != 'production') config.logger.trace(request)
 
@@ -79,21 +79,13 @@ export function logger<T>(config?: LoggerConfig){
 			
 					let prom: Promise<Answer<T>> = orig(request).then((answer: Answer<T>) => {
 
-					config.logger[config.output](`OUTPUT: ${ request.route.verb } ${ request.route.path }`, answer)	
+					config.logger[config.output](`OUTPUT: ${ request.route.verb } ${ request.route.path } (${ request.req.path() })`, answer)	
 					
-					// if(typeof config.watch === 'function') config.watch = config.watch(answer, config.logger);
-
-					/*
-					if (config.watch) for(let watch_var of <string[]>config.watch){
-						config.logger[config.input](answer[watch_var])	
-					}
-					*/
-
 					return answer;
 
 				}).catch((err: Answer<T>) => {
 
-					config.logger[config.error](`ERROR: ${ request.route.verb } ${ request.route.path }`)  
+					config.logger[config.error](`ERROR: ${ request.route.verb } ${ request.route.path } (${ request.req.path() })`)  
 					config.logger[config.error](`ERROR: We got a ${ err.code } error`)
 					config.logger[config.error](err.response)
 					return err;
