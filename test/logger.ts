@@ -33,7 +33,8 @@ describe('@logger', () => {
 				let res = {
 
 					json: function(code: Number, message: any) {
-						
+
+						console.log(message)
 						expect(code).to.be.equal(200)	
 
 					}
@@ -53,9 +54,16 @@ describe('@logger', () => {
 
 		let loggerMock = {
 
-			info: function(message: string, req: any) {
+			info: function(message: string | Object) {
 
-				expect(message).to.be.equal(
+				/*
+				 * Message can be a string or an object.
+				 *
+				 * src/logger.ts will first send a message to show the route,
+				 * then a string with the parameters
+				 *
+				 */
+				if(typeof message == 'string') expect(message).to.be.equal(
 					'INPUT: post /post'	
 				)
 
@@ -251,7 +259,14 @@ describe('@logger', () => {
 
 			notice: function(message: string, req: any) {
 
-				expect(message).to.be.equal(
+				/*
+				 * Message can be a string or an object.
+				 *
+				 * src/logger.ts will first send a message to show the route,
+				 * then a string with the parameters
+				 *
+				 */
+				if(typeof message == 'string') expect(message).to.be.equal(
 					'INPUT: post /post'	
 				)
 
