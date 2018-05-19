@@ -65,6 +65,7 @@ export function logger<T>(config?: LoggerConfig){
 
 
 			config.logger[config.input](`INPUT: ${ request.route.verb } ${ request.route.path }`)
+			config.logger[config.input](request.req.params)
 			if(process.env.NODE_ENV != 'production') config.logger.trace(request)
 
 			let prom: Promise<Answer<T>> = orig(request).then((answer: Answer<T>) => {
