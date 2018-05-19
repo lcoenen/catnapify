@@ -34,7 +34,6 @@ describe('@logger', () => {
 
 					json: function(code: Number, message: any) {
 
-						console.log(message)
 						expect(code).to.be.equal(200)	
 
 					}
@@ -237,7 +236,6 @@ describe('@logger', () => {
 
 					json: function(code: Number, message: any) {
 
-						console.log(message)
 						expect(code).to.be.equal(200)	
 
 					}

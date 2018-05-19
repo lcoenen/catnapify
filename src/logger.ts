@@ -64,40 +64,58 @@ export function logger<T>(config?: LoggerConfig){
 		descriptor.value = function(request: Request){
 
 
+			let _log_internal_error = function(error: any) {
+			
+					config.logger[config.internal](`INTERNAL: ${ request.route.verb } ${ request.route.path }`)	
+					config.logger[config.internal](error)
+			
+			}
+
 			config.logger[config.input](`INPUT: ${ request.route.verb } ${ request.route.path }`)
 			config.logger[config.input](request.req.params)
 			if(process.env.NODE_ENV != 'production') config.logger.trace(request)
 
-			let prom: Promise<Answer<T>> = orig(request).then((answer: Answer<T>) => {
+			try {
+			
+					let prom: Promise<Answer<T>> = orig(request).then((answer: Answer<T>) => {
 
-				config.logger[config.output](`OUTPUT: ${ request.route.verb } ${ request.route.path }`, answer)	
-				
-				// if(typeof config.watch === 'function') config.watch = config.watch(answer, config.logger);
+					config.logger[config.output](`OUTPUT: ${ request.route.verb } ${ request.route.path }`, answer)	
+					
+					// if(typeof config.watch === 'function') config.watch = config.watch(answer, config.logger);
 
-				/*
-				if (config.watch) for(let watch_var of <string[]>config.watch){
-					config.logger[config.input](answer[watch_var])	
-				}
-				*/
+					/*
+					if (config.watch) for(let watch_var of <string[]>config.watch){
+						config.logger[config.input](answer[watch_var])	
+					}
+					*/
 
-				return answer;
+					return answer;
 
-			}).catch((err: Answer<T>) => {
+				}).catch((err: Answer<T>) => {
 
-				config.logger[config.error](`ERROR: ${ request.route.verb } ${ request.route.path }`)  
-				config.logger[config.error](`ERROR: We got a ${ err.code } error`)
-				config.logger[config.error](err.response)
-				return err;
+					config.logger[config.error](`ERROR: ${ request.route.verb } ${ request.route.path }`)  
+					config.logger[config.error](`ERROR: We got a ${ err.code } error`)
+					config.logger[config.error](err.response)
+					return err;
 
-			}).catch((err: Error) => {
+				}).catch((err: Error) => {
 
-				config.logger[config.internal](`INTERNAL: ${ request.route.verb } ${ request.route.path }`)	
-				config.logger[config.internal](err)
+					_log_internal_error(err)
 
-			})
+				})
 
-			return prom;			
+				return prom;			
 
+			}
+			catch(err) {
+
+				_log_internal_error(err)
+
+				if(!isAnswer(err)) err = {code: 500, response: err}
+				return Promise.reject(err)
+
+			}
+			
 		}
 
 		return descriptor;
