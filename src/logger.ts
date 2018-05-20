@@ -63,11 +63,24 @@ export function logger<T>(config?: LoggerConfig){
 
 		descriptor.value = function(request: Request){
 
+			let _log_error = function(error: any) {
 
-			let _log_internal_error = function(error: any) {
-			
+				if(isAnswer(error) && error.code < 500) {
+				
+					config.logger[config.error](`ERROR: ${ request.route.verb } ${ request.route.path } (${ request.req.path() })`)  
+					config.logger[config.error](`ERROR: We got a ${ error.code } error`)
+					config.logger[config.error](error.response)
+				
+				}
+				else {
+
 					config.logger[config.internal](`INTERNAL: ${ request.route.verb } ${ request.route.path } (${ request.req.path() }; guru meditation)`)	
 					config.logger[config.internal](error)
+
+				}
+
+				if(!isAnswer(error)) error = {code: 500, response: error}
+				return Promise.reject(error)
 			
 			}
 
@@ -83,16 +96,9 @@ export function logger<T>(config?: LoggerConfig){
 					
 					return answer;
 
-				}).catch((err: Answer<T>) => {
-
-					config.logger[config.error](`ERROR: ${ request.route.verb } ${ request.route.path } (${ request.req.path() })`)  
-					config.logger[config.error](`ERROR: We got a ${ err.code } error`)
-					config.logger[config.error](err.response)
-					return err;
-
 				}).catch((err: Error) => {
 
-					_log_internal_error(err)
+					return _log_error(err);
 
 				})
 
@@ -101,10 +107,7 @@ export function logger<T>(config?: LoggerConfig){
 			}
 			catch(err) {
 
-				_log_internal_error(err)
-
-				if(!isAnswer(err)) err = {code: 500, response: err}
-				return Promise.reject(err)
+				return _log_error(err);
 
 			}
 			
